@@ -1,10 +1,16 @@
 ### About
 Gaming website developed in NodeJS and Angular using Twitch API to fetch games.
 
-## Requirements (Windows)
+### Requirements (Windows)
 
-This project was developed using a specific Node.js version.  
-Download nvm-setup.zip from [nvm-windows](https://github.com/coreybutler/nvm-windows).
+This project was developed using a specific Node.js version (16.20).  
+Download and install nvm-setup.zip from [nvm-windows](https://github.com/coreybutler/nvm-windows/releases).
+
+Once installed, run following commands: 
+```
+nvm install 16
+nvm use 16
+```
 
 ### Login Initials:
 admin
