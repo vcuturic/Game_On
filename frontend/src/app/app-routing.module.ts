@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { GameComponent } from './game/game.component';
-import { GamesComponent } from './games/games.component';
-import { AuthGuardService } from './services/auth-guard.service';
-import { NoAuthGuardService } from './services/no-auth-guard.service';
-import { LoginComponent } from './login/login.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { UsersComponent } from './users/users.component';
 import { HomeComponent } from './home/home.component';
-import { RegisterComponent } from './register/register.component';
+import { AuthGuardService } from './services/auth-guard.service';
+import { GamesComponent } from './games/games.component';
+import { GameComponent } from './game/game.component';
 import { FavoriteGamesComponent } from './home/components/favorite-games/favorite-games.component';
+import { UsersComponent } from './users/users.component';
+import { LoginComponent } from './login/login.component';
+import { NoAuthGuardService } from './services/no-auth-guard.service';
+import { RegisterComponent } from './register/register.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 const routes: Routes = [
   { path: '',
