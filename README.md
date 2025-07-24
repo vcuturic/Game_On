@@ -12,6 +12,18 @@ nvm install 16
 nvm use 16
 ```
 
+### Running Angular 13
+
+Once cloned, run following commands: 
+```
+npm ci --force
+```
+
+After clean install, run the app with: 
+```
+npx ng serve
+```
+
 ### Login Initials:
 admin
 admin
