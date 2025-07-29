@@ -19,8 +19,6 @@ var UserSchema = new Schema({
     admin: Boolean
 })
 
-//  Difference between making func on chema vs model is Table vs Document
-// Document is an noSQL row (ne relaciona)
 UserSchema.methods.setPassword = function(password) {
     this.salt = crypto.randomBytes(16).toString('hex')
     this.hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64, 'sha512').toString('hex')
@@ -39,7 +37,7 @@ UserSchema.methods.generateJwt = function(){
         _id: this._id,
         email: this.email,
         name: this.name,
-        expire: parseInt(expire.getTime()/1000) // return miliseconds | /1000 = seconds
+        expire: parseInt(expire.getTime()/1000)
 
     }, "SECRET")
 }

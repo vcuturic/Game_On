@@ -16,7 +16,6 @@ passport.use(new LocalStrategy(localOptions, function (email, password, done) {
             ]
             }, function(err, user){
 
-        // var user = await User.findOne({email: username})
         if (err)
             return done(err);
 
@@ -51,17 +50,5 @@ passport.use(new JwtStrategy(JwtOptions, function(jwt_payload, done){
             return done(err)
         })
 }))
-
-// ... je prosledjivanje neodredjenog broja argumenata
-// passport.authorizeRoles = function(...roles){
-//     return function(req, res, next){
-//         if(roles.find(role => role === req.user.getRole())){
-//             next()
-//         }
-//         else{
-//             res.status(403).send()
-//         }
-//     }
-// }
 
 module.exports = passport

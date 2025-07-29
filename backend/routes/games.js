@@ -4,15 +4,19 @@ var passport = require('./config/passport')
 const igdb = require('igdb-api-node').default;
 const twitchConstants = require('../constants/twitchconstants');
 const url = require('url');
-
+// NEW AUTHENTICATION
+const igdbClientPromise = require('../services/igdbClient');
+//
 var router = express.Router()
 
 router.get("/", 
     async function(req, res) {
         const queryObject = url.parse(req.url, true).query;
+        const igdbClient = await igdbClientPromise;
         let response;
+
         if(queryObject.search && queryObject.search != "") {
-            const response = await igdb(twitchConstants.CLIENT_ID, twitchConstants.CLIENT_SECRET)
+            const response = await igdbClient
             .fields('*')
             .search(queryObject.search)
             .where(`total_rating != null`)
@@ -23,7 +27,7 @@ router.get("/",
             res.json(response.data);
         }
         else {
-            response = await igdb(twitchConstants.CLIENT_ID, twitchConstants.CLIENT_SECRET)
+            response = await igdbClient
             .fields('*')
             .sort('total_rating', 'desc')
             .sort('total_rating_count', 'desc')
@@ -40,9 +44,12 @@ router.get("/",
 router.post("/covers", 
     async function(req, res) {
         const queryObject = url.parse(req.url, true).query;
+        const igdbClient = await igdbClientPromise;
+
         var games = req.body;
         var lastElement = games.filter(el => el.cover != null).slice(-1)[0];
         var query = "id = (";
+
         games.forEach(element => {
             if(element.cover){
                 query += element.cover;
@@ -51,8 +58,10 @@ router.post("/covers",
                 }
             }
         });
+
         query += ')';
-        const response = await igdb(twitchConstants.CLIENT_ID, twitchConstants.CLIENT_SECRET)
+
+        const response = await igdbClient
         .fields('url, game')
         .where(query)
         .limit(queryObject.limit)
@@ -65,7 +74,9 @@ router.post("/covers",
 router.get("/game/:id", 
     //passport.authenticate('jwt', {session:false}),
     async function(req, res) {
-        const response = await igdb(twitchConstants.CLIENT_ID, twitchConstants.CLIENT_SECRET)
+        const igdbClient = await igdbClientPromise;
+
+        const response = await igdbClient
         .fields('*')
         .where(`id = ${req.params.id}`)
         .request('/games'); 
@@ -78,7 +89,9 @@ router.get("/game/:id",
 router.get("/game/:id/screenshots", 
     //passport.authenticate('jwt', {session:false}),
     async function(req, res) {
-        const response = await igdb(twitchConstants.CLIENT_ID, twitchConstants.CLIENT_SECRET)
+        const igdbClient = await igdbClientPromise;
+
+        const response = await igdbClient
         .fields('game, url')
         .where(`game = ${req.params.id}`)
         .request('/screenshots'); 
@@ -91,7 +104,9 @@ router.get("/game/:id/screenshots",
 router.get("/game/:id/cover", 
     //passport.authenticate('jwt', {session:false}),
     async function(req, res) {
-        const response = await igdb(twitchConstants.CLIENT_ID, twitchConstants.CLIENT_SECRET)
+        const igdbClient = await igdbClientPromise;
+
+        const response = await igdbClient
         .fields('game, url')
         .where(`game = ${req.params.id}`)
         .request('/covers'); 
@@ -104,8 +119,9 @@ router.get("/game/:id/cover",
 router.post("/genres",
     async function(req, res) {
         var genres = req.body;
+        const igdbClient = await igdbClientPromise;
 
-        const response = await igdb(twitchConstants.CLIENT_ID, twitchConstants.CLIENT_SECRET)
+        const response = await igdbClient
         .fields('name')
         .where(`id = (${genres})`)
         .request('/genres'); 
@@ -118,8 +134,9 @@ router.post("/genres",
 router.post("/platforms",
     async function(req, res) {
         var platforms = req.body;
+        const igdbClient = await igdbClientPromise;
 
-        const response = await igdb(twitchConstants.CLIENT_ID, twitchConstants.CLIENT_SECRET)
+        const response = await igdbClient
         .fields('name')
         .where(`id = (${platforms})`)
         .request('/platforms'); 
